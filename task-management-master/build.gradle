@@ -1,0 +1,90 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+springBoot {
+	executable = true
+}
+
+// 依存関係の解決
+repositories {
+	mavenCentral()
+}
+
+// ソースと実行コードのjavaバージョン
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// 依存ライブラリの設定
+dependencies {
+	// ここではバージョン指定は不要
+	// spring関連
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-jdbc')
+	compile('org.springframework.boot:spring-boot-starter-jetty')
+	compile('org.springframework.boot:spring-boot-starter-data-redis')
+	compile('org.springframework.boot:spring-boot-configuration-processor')
+	// compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile('org.springframework.boot:spring-boot-starter-cache')
+	compile('org.projectlombok:lombok:1.16.6')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf'){
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+	} 
+	compile('org.springframework.boot:spring-boot-starter-web') {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+	}
+	compile("org.springframework.boot:spring-boot-starter")
+	compile("org.springframework.boot:spring-boot-starter-batch")
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	
+	// AWS関連
+	compile("org.springframework.cloud:spring-cloud-aws-context:1.0.2.RELEASE")
+	// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ses
+	compile group: 'com.amazonaws', name: 'aws-java-sdk-ses', version: '1.9.16'
+	
+	
+	// Google API関連
+	compile 'com.google.apis:google-api-services-translate:v2-rev51-1.22.0'
+	compile ('com.google.http-client:google-http-client-gson:1.22.0') {
+		exclude module: 'httpclient'
+	}
+	
+	// Google map関連
+	compile 'com.google.maps:google-maps-services:0.2.2'
+	
+	// mysql関連
+	runtime('mysql:mysql-connector-java')
+	
+	//よく使うライブラリたち
+	// apache系
+	compile 'org.projectlombok:lombok:1.16.8'
+	compile 'org.apache.commons:commons-io:1.3.2'
+	compile 'org.apache.commons:commons-csv:1.2'
+	compile 'org.apache.commons:commons-collections4:4.1'
+	compile 'org.apache.httpcomponents:httpclient:4.3.1'
+	compile 'org.apache.commons:commons-email:1.4'
+	compile 'org.apache.commons:commons-email:1.4'
+	compile 'org.apache.commons:commons-lang3:3.1'
+	// okhttp
+	compile 'com.squareup.okhttp:okhttp:2.5.0'
+	// gson
+	compile 'com.google.code.gson:gson:2.3.1'
+	
+	//SpringでDBUnitを楽に使うためのライブラリ
+	testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.3.0'
+}
